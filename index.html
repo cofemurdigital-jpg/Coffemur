@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNIT. — Toko Aksesoris Digital</title>
+<meta name="theme-color" content="#03AC0E">
+<meta name="description" content="UNIT Supply — katalog aksesoris digital, order agen, keranjang dan checkout.">
+<meta name="author" content="UNIT Supply">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2303AC0E'/><rect x='9' y='9' width='14' height='14' rx='3' fill='white'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body id="top">
+
+<!-- ====== ILUSTRASI SVG (fallback jika foto gagal dimuat) ====== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="art-keyboard" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M222 92c14-7 20-22 12-35-8-12-24-16-38-10"/>
+    <rect x="18" y="70" width="204" height="100" rx="14"/>
+    <rect x="30" y="89" width="25" height="18" rx="4"/><rect x="61" y="89" width="25" height="18" rx="4"/><rect x="92" y="89" width="25" height="18" rx="4"/><rect x="123" y="89" width="25" height="18" rx="4"/><rect x="154" y="89" width="25" height="18" rx="4"/>
+    <rect x="185" y="89" width="25" height="18" rx="4" fill="var(--acc,#03AC0E)"/>
+    <rect x="30" y="111" width="25" height="18" rx="4"/><rect x="61" y="111" width="25" height="18" rx="4"/>
+    <rect x="92" y="111" width="25" height="18" rx="4" fill="var(--acc,#03AC0E)"/>
+    <rect x="123" y="111" width="25" height="18" rx="4"/><rect x="154" y="111" width="25" height="18" rx="4"/><rect x="185" y="111" width="25" height="18" rx="4"/>
+    <rect x="30" y="133" width="25" height="18" rx="4"/><rect x="61" y="133" width="25" height="18" rx="4"/><rect x="92" y="133" width="87" height="18" rx="4"/><rect x="185" y="133" width="25" height="18" rx="4"/>
+  </symbol>
+  <symbol id="art-mouse" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M120 34c40 0 54 48 54 88s-14 84-54 84-54-44-54-84 14-88 54-88Z"/>
+    <path d="M120 34v24"/>
+    <rect x="111" y="58" width="18" height="30" rx="9" fill="var(--acc,#03AC0E)"/>
+    <path d="M76 158c12 9 28 13 44 13s32-4 44-13"/>
+    <rect x="110" y="176" width="20" height="11" rx="4"/>
+  </symbol>
+  <symbol id="art-earbuds" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M102 30c10-9 26-9 36 0"/><path d="M94 18c15-13 37-13 52 0"/>
+    <rect x="62" y="40" width="116" height="38" rx="14"/>
+    <rect x="46" y="104" width="148" height="82" rx="16"/>
+    <circle cx="96" cy="132" r="13"/><rect x="90" y="132" width="12" height="26" rx="6"/>
+    <circle cx="144" cy="132" r="13"/><rect x="138" y="132" width="12" height="26" rx="6"/>
+    <circle cx="172" cy="164" r="5" fill="var(--acc,#03AC0E)"/>
+  </symbol>
+  <symbol id="art-headphone" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M58 132v-12c0-42 26-70 62-70s62 28 62 70v12"/>
+    <path d="M74 132v-8c0-30 20-50 46-50s46 20 46 50v8"/>
+    <rect x="34" y="132" width="30" height="62" rx="12"/>
+    <rect x="176" y="132" width="30" height="62" rx="12"/>
+    <rect x="42" y="142" width="14" height="42" rx="7" fill="var(--acc,#03AC0E)"/>
+    <rect x="184" y="142" width="14" height="42" rx="7" fill="var(--acc,#03AC0E)"/>
+  </symbol>
+  <symbol id="art-powerbank" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="72" y="36" width="96" height="168" rx="18"/>
+    <circle cx="92" cy="58" r="5" fill="var(--acc,#03AC0E)"/><circle cx="110" cy="58" r="5" fill="var(--acc,#03AC0E)"/><circle cx="128" cy="58" r="5" fill="var(--acc,#03AC0E)"/><circle cx="146" cy="58" r="5"/>
+    <path d="M134 80l-30 48h22l-14 44 42-58h-24l18-34z" fill="var(--acc,#03AC0E)" stroke="none"/>
+    <rect x="94" y="184" width="52" height="12" rx="4"/>
+  </symbol>
+  <symbol id="art-charger" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="78" y="92" width="84" height="112" rx="14"/>
+    <rect x="98" y="66" width="12" height="26" rx="3"/><rect x="130" y="66" width="12" height="26" rx="3"/>
+    <path d="M128 106l-16 24h12l-8 20 22-28h-13l10-16z" stroke-width="4"/>
+    <rect x="94" y="166" width="24" height="12" rx="3" fill="var(--acc,#03AC0E)"/>
+    <rect x="122" y="166" width="24" height="12" rx="3"/>
+  </symbol>
+  <symbol id="art-adapter" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="97" y="52" width="11" height="30" rx="3"/><rect x="132" y="52" width="11" height="30" rx="3"/>
+    <rect x="76" y="82" width="88" height="106" rx="14"/>
+    <circle cx="120" cy="112" r="9" fill="var(--acc,#03AC0E)" stroke="none"/>
+    <rect x="94" y="140" width="52" height="10" rx="4"/>
+    <rect x="94" y="158" width="52" height="10" rx="4"/>
+    <path d="M120 188v22m0 0h-15m15 0h15"/>
+  </symbol>
+  <symbol id="art-speaker" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="76" y="42" width="88" height="152" rx="16"/>
+    <circle cx="120" cy="82" r="13"/>
+    <circle cx="120" cy="146" r="31"/>
+    <circle cx="120" cy="146" r="12" fill="var(--acc,#03AC0E)" stroke="none"/>
+    <rect x="104" y="204" width="32" height="9" rx="4"/>
+  </symbol>
+  <symbol id="art-pad" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="120" cy="110" r="54"/>
+    <circle cx="120" cy="110" r="34" stroke-dasharray="6 9" stroke-width="4"/>
+    <path d="M126 88l-18 26h13l-9 24 24-30h-14l12-20z" fill="var(--acc,#03AC0E)" stroke="none"/>
+    <path d="M120 164v34c0 12-9 18-19 18"/>
+  </symbol>
+  <symbol id="art-earphone" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="86" cy="62" r="18"/><circle cx="154" cy="62" r="18"/>
+    <rect x="79" y="52" width="14" height="24" rx="7" fill="var(--acc,#03AC0E)" stroke="none"/>
+    <rect x="147" y="52" width="14" height="24" rx="7" fill="var(--acc,#03AC0E)" stroke="none"/>
+    <path d="M86 80c0 26 12 40 34 54m34-54c0 26-12 40-34 54"/>
+    <path d="M120 134v34m0 0c-9 0-14 7-14 15 0 10 7 17 14 17s14-7 14-17c0-8-5-15-14-15Z"/>
+  </symbol>
+  <symbol id="art-cablem" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="72" y="46" width="96" height="42" rx="11"/>
+    <rect x="90" y="58" width="60" height="16" rx="3" fill="var(--acc,#03AC0E)" stroke="none"/>
+    <path d="M120 88v46m0 0c0 18-28 14-28 36 0 14 13 22 28 22s28-8 28-22c0-22-28-18-28-36Z"/>
+  </symbol>
+  <symbol id="art-cablec" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="72" y="46" width="96" height="42" rx="11"/>
+    <rect x="98" y="58" width="44" height="16" rx="8" fill="var(--acc,#03AC0E)" stroke="none"/>
+    <path d="M120 88v46m0 0c0 18-28 14-28 36 0 14 13 22 28 22s28-8 28-22c0-22-28-18-28-36Z"/>
+  </symbol>
+  <symbol id="art-cctv" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="120" cy="94" r="48"/>
+    <circle cx="120" cy="94" r="27"/>
+    <circle cx="120" cy="94" r="9" fill="var(--acc,#03AC0E)" stroke="none"/>
+    <circle cx="151" cy="66" r="4" fill="var(--acc,#03AC0E)" stroke="none"/>
+    <path d="M120 142v30"/>
+    <path d="M92 214c4-18 14-26 28-26s24 8 28 26Z"/>
+    <path d="M60 40c6 6 6 14 0 20M46 30c11 12 11 28 0 40" stroke-width="4"/>
+  </symbol>
+  <symbol id="art-hub" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="44" y="100" width="152" height="48" rx="12"/>
+    <path d="M44 124C26 124 22 100 8 94"/>
+    <rect x="76" y="92" width="20" height="8" rx="2"/><rect x="102" y="92" width="20" height="8" rx="2"/>
+    <rect x="58" y="118" width="24" height="13" rx="3" fill="var(--acc,#03AC0E)"/>
+    <rect x="88" y="118" width="24" height="13" rx="3"/>
+    <rect x="118" y="118" width="24" height="13" rx="3"/>
+    <rect x="148" y="116" width="34" height="17" rx="3"/>
+  </symbol>
+  <symbol id="art-webcam" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="120" cy="104" r="52"/><circle cx="120" cy="104" r="32"/>
+    <circle cx="120" cy="104" r="12" fill="var(--acc,#03AC0E)"/>
+    <path d="M120 34v12M120 162v12M50 104h12M178 104h12" stroke-width="4"/>
+    <path d="M83 141 66 194M157 141l17 53M52 194h136"/>
+  </symbol>
+  <symbol id="art-ssd" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="52" y="78" width="136" height="88" rx="16"/>
+    <rect x="68" y="98" width="44" height="12" rx="3"/><rect x="68" y="120" width="28" height="12" rx="3"/>
+    <path d="M148 94v56M162 94v56M176 94v56" stroke-width="4"/>
+    <circle cx="130" cy="150" r="5" fill="var(--acc,#03AC0E)"/>
+    <path d="M188 146c18 2 32 16 24 32-6 13-22 16-40 11"/>
+    <rect x="150" y="183" width="26" height="13" rx="4"/>
+  </symbol>
+  <symbol id="art-mousepad" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="rotate(-5 120 120)">
+      <rect x="28" y="76" width="184" height="96" rx="10"/>
+      <rect x="40" y="88" width="160" height="72" rx="6" stroke-dasharray="9 8" stroke-width="3"/>
+      <path d="M92 88v72M144 88v72" stroke-width="3"/>
+      <rect x="162" y="114" width="16" height="16" rx="3" fill="var(--acc,#03AC0E)" stroke="none"/>
+    </g>
+  </symbol>
+</defs></svg>
+
+<!-- announcement bar -->
+<div class="marq" aria-hidden="true"><div class="marq-track" id="marqTrack"></div></div>
+
+<!-- header -->
+<header class="hd">
+  <div class="wrap hd-in">
+    <a class="logo" href="#top">UNIT<span>.</span></a>
+    <form class="hsearch" id="hSearch">
+      <i data-lucide="search" class="ic"></i>
+      <input id="hInput" type="text" placeholder="Cari keyboard, speaker, kabel, CCTV…" aria-label="Cari produk">
+      <button type="submit">Cari</button>
+    </form>
+    <nav class="nav">
+      <a class="nlink" href="#katalog">Katalog</a>
+      <a class="nlink" href="#spotlight">Unggulan</a>
+      <a class="nlink" href="#order">Order Agen</a>
+      <a class="nlink" href="#faq">FAQ</a>
+    </nav>
+    <button class="cartbtn" id="cartBtn" aria-label="Buka keranjang">
+      <i data-lucide="shopping-cart" class="ic"></i><b class="cart-count" id="cartCount">0</b>
+    </button>
+    <button class="iconbtn" id="menuBtn" aria-label="Buka menu"><i data-lucide="menu" class="ic"></i></button>
+  </div>
+</header>
+
+<!-- menu mobile -->
+<div class="mnav" id="mnav" role="dialog" aria-label="Menu navigasi">
+  <div class="mnav-h">
+    <span class="logo">UNIT<span>.</span></span>
+    <button class="iconbtn" id="menuClose" style="display:flex" aria-label="Tutup menu"><i data-lucide="x" class="ic"></i></button>
+  </div>
+  <nav style="margin-top:28px">
+    <a class="big" href="#katalog">Katalog <em>/001</em></a>
+    <a class="big" href="#spotlight">Unggulan <em>/002</em></a>
+    <a class="big" href="#order">Order Agen <em>/003</em></a>
+    <a class="big" href="#faq">FAQ <em>/004</em></a>
+  </nav>
+  <div class="mnav-f"><span>Jakarta Selatan, ID</span><span class="jsClock">--:--:-- WIB</span></div>
+</div>
+
+<main>
+<!-- ====== HERO ====== -->
+<section class="hero" id="hero">
+  <div class="wrap">
+    <div class="hero-card" data-reveal>
+      <div class="hero-grid">
+        <div>
+          <span class="pill"><i data-lucide="badge-check" class="ic"></i>Mitra agen welcome — COD &amp; cicilan tersedia</span>
+          <h1>Aksesoris Digital Lengkap,<br>Bergaransi, <em>Sampai Rumah.</em></h1>
+          <p class="hero-sub">Charger, kabel, speaker, sampai CCTV — 18 produk kurasi harga jual terbaik. Pesan sebelum 15.00, dikirim hari ini juga via laut atau udara.</p>
+          <div class="cta-row">
+            <a class="btn" href="#katalog">Jelajahi Katalog <i data-lucide="arrow-right" class="ic"></i></a>
+            <a class="btn btn-o" href="#order">Sistem Order Agen</a>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="hfoto hf1" id="hf1"></div>
+          <div class="hfoto hf2" id="hf2"></div>
+          <div class="hfoto hf3" id="hf3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- trust badges -->
+<div class="trust" data-reveal>
+  <div class="wrap trust-grid">
+    <div class="tcard"><i data-lucide="shield-check" class="ic"></i><div><b>Garansi Resmi</b><span>12 bulan semua produk</span></div></div>
+    <div class="tcard"><i data-lucide="truck" class="ic"></i><div><b>Kirim Hari Ini</b><span>Pesan sebelum 15.00 WIB</span></div></div>
+    <div class="tcard"><i data-lucide="banknote" class="ic"></i><div><b>COD Se-Indonesia</b><span>Bayar saat barang tiba</span></div></div>
+    <div class="tcard"><i data-lucide="hand-coins" class="ic"></i><div><b>Cicilan Agen</b><span>DP 30% — sisa hingga 3×</span></div></div>
+  </div>
+</div>
+
+<!-- ====== KATALOG ====== -->
+<section class="sec" id="katalog">
+  <div class="wrap">
+    <div class="shead" data-reveal>
+      <span class="kick">Katalog Produk</span>
+      <h2 class="stitle">Semua Produk</h2>
+      <p class="ssub">Harga sudah sesuai daftar — klik produk untuk detail spesifikasi, atau tambah langsung ke keranjang.</p>
+    </div>
+    <div class="toolbar" data-reveal>
+      <div class="cats" id="cats"></div>
+      <label class="search"><i data-lucide="search" class="ic"></i><input id="search" type="text" placeholder="Cari di katalog…" aria-label="Cari produk"></label>
+    </div>
+    <div class="grid" id="grid" data-reveal></div>
+    <p class="gcount" id="gridCount"></p>
+  </div>
+</section>
+
+<!-- ====== PRODUK UNGGULAN ====== -->
+<section class="sec" id="spotlight" style="padding-top:6px">
+  <div class="wrap">
+    <div class="shead" data-reveal>
+      <span class="kick">Produk Unggulan</span>
+      <h2 class="stitle">Pilihan Editor</h2>
+    </div>
+    <div class="spotcard" data-reveal>
+      <div class="svisual">
+        <div class="sart" id="tiltZone">
+          <svg id="tiltCard" viewBox="0 0 240 240" style="--acc:#03AC0E"><use href="#art-keyboard"/></svg>
+        </div>
+        <div class="swrow" role="group" aria-label="Pilih varian warna">
+          <button class="swatch on" data-c="#03AC0E" data-n="HIJAU" style="--c:#03AC0E" aria-label="Varian Hijau"></button>
+          <button class="swatch" data-c="#2E6BE6" data-n="BIRU" style="--c:#2E6BE6" aria-label="Varian Biru"></button>
+          <button class="swatch" data-c="#E31D1C" data-n="MERAH" style="--c:#E31D1C" aria-label="Varian Merah"></button>
+          <span class="swname">Varian — <b id="varName">HIJAU</b></span>
+        </div>
+      </div>
+      <div class="sinfo">
+        <span class="kick">Keyboard Mekanik / 001</span>
+        <h2>Monolith MK-75</h2>
+        <p>Keyboard 75% dengan mounting gasket dan casing aluminium. Setiap unit diuji dan dikalibrasi tangan sebelum dikirim — ketikan senyap sejak hari pertama.</p>
+        <ul class="speclist">
+          <li><b>01</b>Switch Gateron G Pro 3.0 — hot-swap</li>
+          <li><b>02</b>Keycap PBT double-shot, profil OSA</li>
+          <li><b>03</b>Tri-mode: USB-C / 2.4GHz / BT 5.1</li>
+          <li><b>04</b>Baterai 4.000 mAh — ±120 jam</li>
+        </ul>
+        <p class="stock"><span class="pdot"></span>Stok tersedia 14 unit — siap kirim hari ini</p>
+        <div class="spot-buy">
+          <p class="pprice"><b>Rp 1.249.000</b></p>
+          <button class="btn" id="spotAdd">Tambah ke Keranjang <i data-lucide="plus" class="ic"></i></button>
+          <button class="btn btn-gray" id="spotMore">Detail</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SISTEM ORDER AGEN ====== -->
+<section class="sec" id="order" style="padding-top:6px">
+  <div class="wrap">
+    <div class="shead" data-reveal>
+      <span class="kick">Sistem Order Agen</span>
+      <h2 class="stitle">Alur Order Agen</h2>
+      <p class="ssub">Tiga skema pembayaran untuk mitra agen — pilih saat checkout di keranjang. Semua pesanan dikonfirmasi tim kami via WhatsApp maksimal 1×24 jam.</p>
+    </div>
+    <div class="ag-grid" data-reveal>
+      <article class="mcard">
+        <div class="mtop"><span class="mnum">01</span><span class="lim">TANPA LIMIT</span></div>
+        <h3>Pesan · Bayar · Kirim</h3>
+        <p>Transfer penuh saat memesan — barang langsung masuk antrean kirim. Tanpa batas nominal, cocok untuk <b>restock jumlah besar</b>.</p>
+        <div class="steps">
+          <span class="stepchip">PESAN</span><i data-lucide="chevron-right" class="ic"></i>
+          <span class="stepchip">BAYAR</span><i data-lucide="chevron-right" class="ic"></i>
+          <span class="stepchip">KIRIM</span>
+        </div>
+      </article>
+      <article class="mcard">
+        <div class="mtop"><span class="mnum">02</span><span class="lim">LIMIT 1 JT</span></div>
+        <h3>Pesan · Kirim · Bayar (COD)</h3>
+        <p>Bayar tunai saat barang tiba di alamat. Limit <b>Rp 1.000.000</b> per pesanan. Periksa unit di depan kurir sebelum membayar.</p>
+        <div class="steps">
+          <span class="stepchip">PESAN</span><i data-lucide="chevron-right" class="ic"></i>
+          <span class="stepchip">KIRIM</span><i data-lucide="chevron-right" class="ic"></i>
+          <span class="stepchip">BAYAR</span>
+        </div>
+      </article>
+      <article class="mcard">
+        <div class="mtop"><span class="mnum">03</span><span class="lim">LIMIT 2 JT</span></div>
+        <h3>Pesan · DP · Kirim · Cicil</h3>
+        <p>DP 30% di awal, barang dikirim, sisanya dicicil maksimal <b>3×</b> setelah barang tiba. Limit <b>Rp 2.000.000</b> per pesanan.</p>
+        <div class="steps">
+          <span class="stepchip">PESAN</span><i data-lucide="chevron-right" class="ic"></i>
+          <span class="stepchip">DP 30%</span><i data-lucide="chevron-right" class="ic"></i>
+          <span class="stepchip">KIRIM</span><i data-lucide="chevron-right" class="ic"></i>
+          <span class="stepchip">CICIL ≤3×</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="shiptable" data-reveal>
+      <div class="shrow head">
+        <div>Pengiriman</div>
+        <div class="shicon"><i data-lucide="ship" class="ic"></i>Via Laut</div>
+        <div class="shicon"><i data-lucide="plane" class="ic"></i>Via Udara</div>
+      </div>
+      <div class="shrow"><div>Ongkir</div><div><b>Rp 15.000</b></div><div><b>Rp 40.000</b></div></div>
+      <div class="shrow"><div>Estimasi</div><div>7–14 hari kerja</div><div>1–3 hari kerja</div></div>
+      <div class="shrow"><div>Promo</div><div>Gratis jika subtotal ≥ Rp 300.000</div><div>—</div></div>
+      <div class="shrow"><div>Cocok untuk</div><div>Pesanan besar &amp; hemat biaya</div><div>Restock cepat / butuh segera</div></div>
+    </div>
+
+    <div class="agcta" data-reveal>
+      <a class="btn" href="#katalog">Mulai Isi Keranjang <i data-lucide="arrow-right" class="ic"></i></a>
+      <span>Metode &amp; ongkir dihitung otomatis saat checkout.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FAQ ====== -->
+<section class="sec" id="faq" style="padding-top:6px">
+  <div class="wrap">
+    <div class="shead" data-reveal>
+      <span class="kick">FAQ</span>
+      <h2 class="stitle">Pertanyaan Umum</h2>
+    </div>
+    <div class="faqwrap">
+      <div class="qa" data-reveal>
+        <button class="qa-h"><span>Bagaimana cara order sebagai agen?</span><i data-lucide="plus" class="ic"></i></button>
+        <div class="qa-b"><div class="qa-i"><p>Isi keranjang lalu tekan Checkout. Di form checkout, isi data agen, pilih pengiriman (laut/udara) dan metode pembayaran: transfer penuh (tanpa limit), COD (limit Rp 1.000.000), atau DP 30% + cicilan maksimal 3× (limit Rp 2.000.000). Sistem otomatis menolak metode yang melebihi limit.</p></div></div>
+      </div>
+      <div class="qa" data-reveal>
+        <button class="qa-h"><span>Apakah semua produk bergaransi resmi?</span><i data-lucide="plus" class="ic"></i></button>
+        <div class="qa-b"><div class="qa-i"><p>Ya. Semua unit bergaransi resmi distributor 12 bulan. Klaim cukup datang ke kantor kami di Jakarta atau kirim unit — ongkos kirim klaim kami tanggung di tahun pertama.</p></div></div>
+      </div>
+      <div class="qa" data-reveal>
+        <button class="qa-h"><span>Seberapa cepat pesanan dikirim?</span><i data-lucide="plus" class="ic"></i></button>
+        <div class="qa-b"><div class="qa-i"><p>Pesanan sebelum 15.00 WIB diproses di hari yang sama. Via udara tiba 1–3 hari kerja ke seluruh Indonesia; via laut 7–14 hari kerja dengan biaya jauh lebih hemat — gratis untuk subtotal di atas Rp 300.000.</p></div></div>
+      </div>
+      <div class="qa" data-reveal>
+        <button class="qa-h"><span>Bagaimana kebijakan pengembalian?</span><i data-lucide="plus" class="ic"></i></button>
+        <div class="qa-b"><div class="qa-i"><p>Ada garansi toko 7 hari: kalau unit tidak sesuai deskripsi atau ada cacat pabrik, uang kembali 100%. Unit hanya perlu lengkap dengan kotak dan aksesorinya.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ====== FOOTER ====== -->
+<footer id="kontak">
+  <div class="wrap ft-grid">
+    <div class="news-card" data-reveal>
+      <h3>Dapatkan notifikasi drop &amp; promo lebih cepat.</h3>
+      <p>Stok terbatas selalu habis dalam hitungan jam. Daftar dan dapatkan kabar 30 menit sebelum drop diumumkan ke publik.</p>
+      <form class="nlform" id="nlForm" novalidate>
+        <input id="nlEmail" type="email" placeholder="alamat@email.com" aria-label="Alamat email">
+        <button type="submit">Daftar <i data-lucide="arrow-right" class="ic"></i></button>
+      </form>
+    </div>
+    <div class="ft-links" data-reveal>
+      <div>
+        <h4>Jelajahi</h4>
+        <a href="#katalog"><i data-lucide="chevron-right" class="ic"></i>Katalog</a>
+        <a href="#spotlight"><i data-lucide="chevron-right" class="ic"></i>Produk Unggulan</a>
+        <a href="#order"><i data-lucide="chevron-right" class="ic"></i>Order Agen</a>
+        <a href="#faq"><i data-lucide="chevron-right" class="ic"></i>FAQ</a>
+      </div>
+      <div>
+        <h4>Layanan</h4>
+        <a href="tracking.html"><i data-lucide="chevron-right" class="ic"></i>Lacak Pesanan</a>
+        <a href="#" data-soon="Portal garansi"><i data-lucide="chevron-right" class="ic"></i>Garansi</a>
+        <a href="#" data-soon="Pengajuan retur"><i data-lucide="chevron-right" class="ic"></i>Pengembalian</a>
+        <a href="#" data-soon="Halaman kontak"><i data-lucide="chevron-right" class="ic"></i>Kontak</a>
+        <a href="admin.html"><i data-lucide="layout-dashboard" class="ic"></i>Admin Dashboard</a>
+      </div>
+      <div>
+        <h4>Sosial</h4>
+        <a href="#" data-soon="Instagram"><i data-lucide="chevron-right" class="ic"></i>Instagram</a>
+        <a href="#" data-soon="TikTok"><i data-lucide="chevron-right" class="ic"></i>TikTok</a>
+        <a href="#" data-soon="WhatsApp"><i data-lucide="chevron-right" class="ic"></i>WhatsApp</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap ft-bot">
+    <span>© 2025 UNIT Supply — Jakarta Selatan</span>
+    <span>Semua harga dalam IDR</span>
+    <span class="jsClock">--:--:-- WIB</span>
+  </div>
+</footer>
+
+<!-- scrim -->
+<div class="scrim" id="scrim"></div>
+
+<!-- ====== DRAWER KERANJANG + CHECKOUT ====== -->
+<aside class="drawer" id="drawer" role="dialog" aria-label="Keranjang & checkout">
+  <div class="dhead">
+    <span><span id="dTitle">Keranjang</span> <b id="dCount">(0)</b></span>
+    <button class="qclose" id="closeCart" style="position:static" aria-label="Tutup"><i data-lucide="x" class="ic"></i></button>
+  </div>
+  <div class="crail" id="coRail"></div>
+
+  <!-- VIEW 1: keranjang -->
+  <div class="dbody" id="cartView"><div id="cartItems"></div></div>
+  <div class="dfoot" id="cartFoot">
+    <div class="shipbar">
+      <p id="shipLabel">—</p>
+      <div class="sbar"><i id="shipFill" style="width:0%"></i></div>
+    </div>
+    <div class="srow"><span>Subtotal</span><span id="sumSub">Rp 0</span></div>
+    <div class="srow"><span>Ongkir*</span><span id="sumShip">dipilih saat checkout</span></div>
+    <div class="srow total"><span>Subtotal Order</span><span id="sumTotal">Rp 0</span></div>
+    <button class="btn checkout" id="checkoutBtn">Checkout — Order Agen <i data-lucide="arrow-right" class="ic"></i></button>
+    <p class="conote">*Laut Rp 15.000 · Udara Rp 40.000 — gratis ongkir laut ≥ Rp 300rb</p>
+  </div>
+
+  <!-- VIEW 2: checkout -->
+  <div class="dbody" id="coBody" hidden>
+    <form id="coForm" class="coform" novalidate>
+      <p class="colabel">( A ) — Data Agen</p>
+      <div class="fgrid">
+        <div class="field"><label for="agName">Nama / Nama Toko</label><input id="agName" type="text" placeholder="cth. Toko Digital Jaya"></div>
+        <div class="field"><label for="agWa">No. WhatsApp</label><input id="agWa" type="tel" placeholder="08xxxxxxxxxx"></div>
+        <div class="field"><label for="agCity">Kota / Kabupaten Tujuan</label><input id="agCity" type="text" placeholder="cth. Makassar"></div>
+        <div class="field"><label for="agAddr">Alamat Lengkap</label><input id="agAddr" type="text" placeholder="Jalan, nomor, kecamatan"></div>
+      </div>
+      <p class="colabel">( B ) — Pengiriman</p>
+      <div class="shipgrid">
+        <button type="button" class="shipcard" data-ship="laut">
+          <span class="sc-top"><i data-lucide="ship" class="ic"></i>Via Laut</span>
+          <span class="sc-cost">Rp 15.000</span>
+          <span class="sc-eta">Estimasi 7–14 hari kerja</span>
+          <span class="sc-note">Gratis jika subtotal ≥ Rp 300rb</span>
+        </button>
+        <button type="button" class="shipcard" data-ship="udara">
+          <span class="sc-top"><i data-lucide="plane" class="ic"></i>Via Udara</span>
+          <span class="sc-cost">Rp 40.000</span>
+          <span class="sc-eta">Estimasi 1–3 hari kerja</span>
+          <span class="sc-note">Prioritas — antrean cepat</span>
+        </button>
+      </div>
+      <p class="colabel">( C ) — Metode Pembayaran</p>
+      <div class="paygrid" id="payCards"></div>
+      <div class="dpbox" id="dpBox" hidden>
+        <div class="dphead"><span>DP 30% — dibayar saat pesan</span><span id="dpAmt">—</span></div>
+        <div class="tenors" id="tenors">
+          <span>Cicil sisa:</span>
+          <button type="button" data-tenor="1">1×</button>
+          <button type="button" data-tenor="2">2×</button>
+          <button type="button" data-tenor="3" class="on">3×</button>
+          <span id="perAmt"></span>
+        </div>
+      </div>
+      <div class="cosum" id="coSum"></div>
+      <button class="btn checkout" type="submit">Kirim Pesanan Agen <i data-lucide="arrow-right" class="ic"></i></button>
+      <button class="btn btn-gray backcart" type="button" id="backCart">Kembali ke Keranjang</button>
+      <p class="conote">Tim agen menghubungi WhatsApp maks. 1×24 jam untuk konfirmasi &amp; resi.</p>
+    </form>
+  </div>
+
+  <!-- VIEW 3: selesai -->
+  <div class="ddone" id="cartDone" hidden>
+    <div class="dcircle"><i data-lucide="check" class="ic"></i></div>
+    <h3>Pesanan Agen Diterima</h3>
+    <p class="ono" id="orderNo">UNIT-AG-00000</p>
+    <div class="recap" id="orderRecap"></div>
+    <p>Konfirmasi &amp; instruksi pembayaran dikirim tim kami via WhatsApp maksimal 1×24 jam.</p>
+    <button class="btn" id="doneBtn">Lanjut Belanja <i data-lucide="arrow-right" class="ic"></i></button>
+  </div>
+</aside>
+
+<!-- ====== MODAL QUICK VIEW ====== -->
+<div class="modal" id="qv" role="dialog" aria-modal="true" aria-label="Detail produk">
+  <div class="qbox">
+    <div class="qleft">
+      <div class="qtagrow"><span>UNIT. / Detail</span><span id="qvNo">/000</span></div>
+      <div class="qvimg" id="qvArt"></div>
+      <div class="qtagrow"><span>Diuji 48 jam</span><span>Garansi 12 bln</span></div>
+    </div>
+    <div class="qright">
+      <button class="qclose" id="qvClose" aria-label="Tutup detail"><i data-lucide="x" class="ic"></i></button>
+      <p class="pcat" id="qvCat">—</p>
+      <h3 id="qvName">—</h3>
+      <p class="qprice" id="qvPrice">—</p>
+      <div class="pmeta" style="margin-bottom:10px"><i data-lucide="star" class="ic star"></i><b id="qvRate">—</b><span id="qvSold">—</span></div>
+      <p class="qtag" id="qvTag">—</p>
+      <ul class="speclist" id="qvSpecs"></ul>
+      <div class="qbuy">
+        <div class="stepper">
+          <button id="qvDec" aria-label="Kurangi jumlah"><i data-lucide="minus" class="ic"></i></button>
+          <span id="qvQty">1</span>
+          <button id="qvInc" aria-label="Tambah jumlah"><i data-lucide="plus" class="ic"></i></button>
+        </div>
+        <button class="btn qadd2" id="qvAdd">Tambah ke Keranjang <i data-lucide="plus" class="ic"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
