@@ -166,7 +166,7 @@ function renderCheckout(){
   try{
     const res=await fetch(STORE_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
     const data=await res.json(); if(!data.ok) throw new Error(data.error||'Gagal menyimpan order');
-    $('#orderNo').textContent=data.orderNo||orderNo;
+    const finalOrder=data.orderNo||orderNo; $('#orderNo').textContent=finalOrder; $('#doneActions').innerHTML=`<a class="btn" target="_blank" href="invoice.html?orderNo=${encodeURIComponent(finalOrder)}&wa=${encodeURIComponent($('#agWa').value.trim())}">Invoice PDF</a><a class="btn" target="_blank" href="https://wa.me/${$('#agWa').value.trim().replace(/[^0-9]/g,'')}">WhatsApp</a>`;
     localStorage.setItem('unit_agent',JSON.stringify(payload.customer));
     $('#orderRecap').innerHTML=`<div class="srow"><span>Metode</span><span>${M.label}</span></div><div class="srow"><span>Alur</span><span>${M.flow}</span></div><div class="srow"><span>Pengiriman</span><span>${S.label} · ${S.eta}</span></div>${co.pay==='dp'?`<div class="srow"><span>DP 30% — sekarang</span><span>${idr(t.dp)}</span></div><div class="srow"><span>Cicilan ${co.tenor}×</span><span>${idr(t.per)} / bulan</span></div>`:''}<div class="srow total"><span>Total</span><span>${idr(t.total)}</span></div><div class="srow"><span>Tujuan</span><span>${$('#agCity').value}</span></div>`;
     cart.clear(); save(); renderCart(); updateBadge(); showView('done'); toast('Pesanan tersimpan di Google Sheets');

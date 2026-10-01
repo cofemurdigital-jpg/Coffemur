@@ -1,4 +1,4 @@
-# UNIT Supply — versi terstruktur
+# Coffemur — versi terstruktur
 
 ## Struktur
 - `index.html` — struktur halaman
@@ -37,5 +37,5 @@ Versi ini mempertahankan fitur dari file awal. Foto produk masih mengambil refer
 9. Cetak invoice/nota PDF.
 10. Integrasi ongkir dan tracking.
 
-## UNIT Supply V2 — Google Sheets
+## Coffemur V2 — Google Sheets
 Versi ini menambahkan integrasi Google Sheets melalui Google Apps Script. Lihat `GOOGLE-SHEETS-SETUP.md` dan `google-apps-script/Code.gs`.

@@ -1,0 +1,19 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Coffemur — Kelola Produk</title><link rel="stylesheet" href="css/admin.css">
+<style>form.pf{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}form.pf label{display:flex;flex-direction:column;font-size:12px;gap:4px}form.pf .w{grid-column:1/-1}form.pf input,form.pf select,form.pf textarea{padding:8px;border:1px solid #ccc;border-radius:8px;font:inherit}.row{display:flex;gap:8px;margin-top:10px}.off{opacity:.5}td img{width:40px;height:40px;object-fit:cover;border-radius:6px}</style></head><body>
+<header><div><strong>Coffemur</strong><span> / Kelola Produk</span></div><nav><a href="admin.html">Dashboard</a><a href="index.html">Toko</a><button id="refresh">↻ Refresh</button></nav></header>
+<main><article><h2 id="ft">Tambah Produk</h2>
+<form class="pf" id="f"><input type="hidden" id="id">
+<label>Nama produk*<input id="name" required></label>
+<label>Kategori*<input id="cat" list="cats" required placeholder="mis. AUDIO"><datalist id="cats"></datalist></label>
+<label>Harga (angka, tanpa titik)*<input id="price" type="number" min="1" required></label>
+<label>Harga coret (opsional)<input id="old" type="number" min="0"></label>
+<label>Stok (kosong = tak dilacak)<input id="stok" type="number" min="0"></label>
+<label>Badge (LARIS / BARU / -15%)<input id="badge"></label>
+<label>Status<select id="status"><option>AKTIF</option><option>NONAKTIF</option></select></label>
+<label><span>Produk laris?</span><input id="hot" type="checkbox"></label>
+<label class="w">URL foto (link langsung https://...jpg/png)<input id="img" type="url"></label>
+<label class="w">Deskripsi singkat<input id="tag"></label>
+<label class="w">Spesifikasi (satu baris = satu poin)<textarea id="specs" rows="4"></textarea></label>
+<div class="row w"><button type="submit" id="save">Simpan</button><button type="button" id="reset">Batal / Form baru</button></div></form></article>
+<article><h2>Daftar Produk</h2><div class="tablewrap"><table><thead><tr><th>Foto</th><th>Nama</th><th>Kategori</th><th>Harga</th><th>Stok</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="rows"><tr><td colspan="7">Memuat...</td></tr></tbody></table></div></article></main>
+<div id="toast"></div><script src="js/config.js"></script><script src="js/auth.js"></script><script src="js/admin-produk.js"></script></body></html>

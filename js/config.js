@@ -1,10 +1,10 @@
-// Konfigurasi UNIT Supply V2 — Google Sheets
+// Konfigurasi Coffemur — Google Sheets
 const STORE_CONFIG = {
-  name: "UNIT Supply",
-  city: "Jakarta Selatan",
-  whatsapp: "",
+  name: "Coffemur",
+  city: "Indonesia",
+  whatsapp: "628980222087",
   currency: "IDR",
   freeShippingMinimum: 300000,
-  // Web App Google Apps Script yang terhubung ke Google Sheet.
+  // Ganti dengan URL /exec dari deployment BARU kamu (lihat PANDUAN-AKTIVASI.md langkah 3)
   apiUrl: "https://script.google.com/macros/s/AKfycbyY4X2GMUvnlDB-7H5fP9fYm8veU2jK0JAtWnZATNQtr6nTEDj8XiQ8QSdy_BNDGLCj1w/exec"
 };

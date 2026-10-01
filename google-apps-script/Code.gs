@@ -1,5 +1,5 @@
 /**
- * UNIT Supply V2 - Google Sheets API
+ * Coffemur V2 - Google Sheets API
  *
  * 1. Buka Extensions > Apps Script dari Google Sheet.
  * 2. Ganti kode dengan isi file ini.
@@ -35,12 +35,19 @@ function setup(){
   sheet_('DETAIL_PESANAN',['orderNo','productId','productName','qty','harga','subtotal']);
   return 'OK';
 }
+// PIN admin. Ganti sesuai keinginan, lalu Save dan Deploy versi baru.
+const ADMIN_PIN = 'admin5858';
+function auth_(t){ return String(t||'').trim()===ADMIN_PIN; }
 function doGet(e){
   setup();
   const action=(e && e.parameter && e.parameter.action)||'health';
-  if(action==='health') return json_({ok:true,service:'UNIT Supply API',time:new Date().toISOString()});
+  if(['dashboard','report','orders','adminProducts'].includes(action) && !auth_(e.parameter.token)) return json_({ok:false,error:'Unauthorized'});
+  if(action==='adminProducts') return json_({ok:true,products:getProducts_(true)});
+  if(action==='health') return json_({ok:true,service:'Coffemur API',time:new Date().toISOString()});
   if(action==='products') return json_({ok:true,products:getProducts_()});
   if(action==='dashboard') return getDashboard_();
+  if(action==='report') return getReport_(e.parameter.month||'');
+  if(action==='invoice') return getInvoice_(e.parameter.orderNo||'', e.parameter.wa||'');
   if(action==='orders') return getOrders_(e.parameter.status||'');
   if(action==='tracking') return getTracking_(e.parameter.orderNo||'', e.parameter.wa||'');
   return json_({ok:false,error:'Unknown action'});
@@ -49,16 +56,19 @@ function doPost(e){
   try{
     setup();
     const data=JSON.parse((e.postData&&e.postData.contents)||'{}');
+    if(['updateStatus','saveProduct','deleteProduct'].includes(data.action) && !auth_(data.token)) return json_({ok:false,error:'Unauthorized'});
+    if(data.action==='saveProduct') return saveProduct_(data);
+    if(data.action==='deleteProduct') return deleteProduct_(data);
     if(data.action==='order') return saveOrder_(data);
     if(data.action==='updateStatus') return updateStatus_(data);
     return json_({ok:false,error:'Unknown action'});
   }catch(err){ return json_({ok:false,error:String(err)}); }
 }
-function getProducts_(){
+function getProducts_(all){
   const sh=ss_().getSheetByName('PRODUK');
   const values=sh.getDataRange().getValues(); if(values.length<2) return [];
   const h=values.shift().map(String);
-  return values.filter(r=>r[0]).map(r=>{
+  return values.filter(r=>r[0]).filter(r=>all||String(r[h.indexOf('status')]||'').toUpperCase()!=='NONAKTIF').map(r=>{
     const o={}; h.forEach((k,i)=>o[k]=r[i]);
     o.price=Number(o.price)||0; o.old=Number(o.old)||0; o.rating=String(o.rating||''); o.hot=String(o.hot).toLowerCase()==='true'; o.specs=String(o.specs||'').split('||').filter(Boolean); o.stok=o.stok===''?null:Number(o.stok); return o;
   });
@@ -124,6 +134,31 @@ function getDashboard_(){
   const low=products.filter(p=>p.stok!==null && Number(p.stok)<=5).map(p=>({id:p.id,name:p.name,stok:Number(p.stok)}));
   return json_({ok:true,stats:{orders:orders.length,new:countStatus('BARU'),processing:countStatus('DIPROSES'),shipped:countStatus('DIKIRIM'),done:countStatus('SELESAI'),cancelled:countStatus('DIBATALKAN'),omzet,todayOrders:today.length,todayOmzet:today.reduce((n,o)=>n+(Number(o.total)||0),0)},best,low,orders:orders.slice(-10).reverse().map(orderPublic_)});
 }
+
+function getReport_(month){
+  const tz=Session.getScriptTimeZone()||'Asia/Jakarta';
+  month=String(month||Utilities.formatDate(new Date(),tz,'yyyy-MM'));
+  const orders=rows_('PESANAN').filter(o=>{
+    if(!o.tanggal) return false;
+    return Utilities.formatDate(new Date(o.tanggal),tz,'yyyy-MM')===month;
+  });
+  const valid=orders.filter(o=>String(o.status||'')!=='DIBATALKAN');
+  const omzet=valid.reduce((n,o)=>n+(Number(o.total)||0),0);
+  const byStatus={}; valid.forEach(o=>{const s=String(o.status||'BARU');byStatus[s]=(byStatus[s]||0)+1;});
+  const byDay={}; valid.forEach(o=>{const d=Utilities.formatDate(new Date(o.tanggal),tz,'dd');byDay[d]=(byDay[d]||0)+(Number(o.total)||0);});
+  const byPayment={}; valid.forEach(o=>{const k=String(o.pembayaran||'Lainnya');byPayment[k]=(byPayment[k]||0)+(Number(o.total)||0);});
+  return json_({ok:true,month,stats:{orders:orders.length,validOrders:valid.length,cancelled:orders.length-valid.length,omzet,average:valid.length?omzet/valid.length:0},byStatus,byDay,byPayment});
+}
+function getInvoice_(orderNo,wa){
+  orderNo=String(orderNo||'').trim(); wa=String(wa||'').replace(/[^0-9]/g,'');
+  const order=rows_('PESANAN').find(o=>String(o.orderNo).trim().toUpperCase()===orderNo.toUpperCase());
+  if(!order) return json_({ok:false,error:'Pesanan tidak ditemukan'});
+  const stored=String(order.whatsapp||'').replace(/[^0-9]/g,'');
+  if(!wa || stored!==wa) return json_({ok:false,error:'Nomor WhatsApp tidak cocok'});
+  const items=rows_('DETAIL_PESANAN').filter(x=>String(x.orderNo)===String(order.orderNo)).map(x=>({name:x.productName,qty:Number(x.qty)||0,price:Number(x.harga)||0,subtotal:Number(x.subtotal)||0}));
+  return json_({ok:true,order:orderPublic_(order),items,store:{name:'Coffemur',city:'Indonesia'}});
+}
+
 function updateStatus_(d){
   const allowed=['BARU','DIPROSES','DIKIRIM','SELESAI','DIBATALKAN'];
   const no=String(d.orderNo||'').trim(); const status=String(d.status||'').trim().toUpperCase();
@@ -132,4 +167,25 @@ function updateStatus_(d){
   if(noC<0||stC<0) return json_({ok:false,error:'Kolom pesanan tidak lengkap'});
   for(let i=1;i<values.length;i++){if(String(values[i][noC]).trim()===no){sh.getRange(i+1,stC+1).setValue(status);return json_({ok:true,orderNo:no,status});}}
   return json_({ok:false,error:'Pesanan tidak ditemukan'});
+}
+
+function saveProduct_(d){
+  const p=d.product||{};
+  if(!p.name||!p.cat||!(Number(p.price)>0)) return json_({ok:false,error:'Nama, kategori, dan harga wajib diisi'});
+  const lock=LockService.getScriptLock(); lock.waitLock(10000);
+  try{
+    const sh=ss_().getSheetByName('PRODUK'); const v=sh.getDataRange().getValues(); const h=v[0].map(String);
+    let row=0; if(p.id){ for(let i=1;i<v.length;i++) if(String(v[i][0])===String(p.id)){row=i+1;break;} }
+    if(!row){ p.id='p'+Date.now().toString(36); p.no=String(v.length).padStart(3,'0'); if(p.rating===undefined)p.rating='5.0'; if(p.sold===undefined)p.sold='0'; }
+    if(Array.isArray(p.specs)) p.specs=p.specs.join('||');
+    p.price=Number(p.price); p.old=Number(p.old)||''; p.stok=(p.stok===''||p.stok==null)?'':Number(p.stok);
+    const out=h.map((k,i)=>p[k]===undefined?(row?v[row-1][i]:''):p[k]);
+    if(row) sh.getRange(row,1,1,h.length).setValues([out]); else sh.appendRow(out);
+    return json_({ok:true,id:p.id});
+  } finally { lock.releaseLock(); }
+}
+function deleteProduct_(d){
+  const sh=ss_().getSheetByName('PRODUK'); const v=sh.getDataRange().getValues();
+  for(let i=1;i<v.length;i++) if(String(v[i][0])===String(d.id)){ sh.deleteRow(i+1); return json_({ok:true}); }
+  return json_({ok:false,error:'Produk tidak ditemukan'});
 }
