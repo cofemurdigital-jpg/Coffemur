@@ -2,7 +2,7 @@
 const STORE_CONFIG = {
   name: "Coffemur",
   city: "Indonesia",
-  whatsapp: "628980222087",
+  whatsapp: "6281325299133",
   currency: "IDR",
   freeShippingMinimum: 300000,
   // Ganti dengan URL /exec dari deployment BARU kamu (lihat PANDUAN-AKTIVASI.md langkah 3)
