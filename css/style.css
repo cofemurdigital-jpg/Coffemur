@@ -329,8 +329,8 @@ footer{background:var(--card);border-top:1px solid var(--line);margin-top:30px}
 .ddone>:last-child{margin-bottom:auto}
 .ddone h3{overflow-wrap:anywhere}
 .ddone .ono{max-width:100%;overflow-wrap:anywhere;word-break:break-all}
-.ddone .doneact{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:14px 0;width:100%}
-.ddone .doneact .btn{flex:1 1 140px;justify-content:center;text-align:center}
+.ddone>p.wanote{display:inline-block;max-width:100%;background:var(--green-bg);color:var(--green-d);border-radius:999px;padding:8px 14px;font-size:12px;font-weight:700;line-height:1.4;margin:0 0 16px;overflow-wrap:anywhere}
+.ddone>p.wanote:empty{display:none}
 .ddone .recap .srow span:first-child{flex:none}
 .ddone .recap .srow span:last-child{min-width:0;overflow-wrap:anywhere}
 .dcircle{width:72px;height:72px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;margin-bottom:20px;animation:pop .5s}
@@ -455,8 +455,7 @@ footer{background:var(--card);border-top:1px solid var(--line);margin-top:30px}
   .dcircle .ic{width:26px;height:26px}
   .ddone h3{font-size:20px}
   .ddone .ono{font-size:12px;letter-spacing:.06em}
-  .ddone .doneact{flex-direction:column}
-  .ddone .doneact .btn,.ddone>.btn{width:100%}
+  .ddone>.btn{width:100%}
 }
 @media(max-width:360px){
   .ddone h3{font-size:18px}

@@ -38,6 +38,90 @@ function setup(){
 // PIN admin. Ganti sesuai keinginan, lalu Save dan Deploy versi baru.
 const ADMIN_PIN = 'admin5858';
 function auth_(t){ return String(t||'').trim()===ADMIN_PIN; }
+
+/* ================= WHATSAPP OTOMATIS (Fonnte) =================
+ * Setiap order masuk, invoice PDF otomatis dikirim dari WA toko ke WA pemesan.
+ * 1. Daftar di fonnte.com, hubungkan nomor WA toko (scan QR), salin TOKEN device.
+ * 2. Tempel token di FONNTE_TOKEN di bawah. Save.
+ * 3. Jalankan fungsi testKirimWa sekali (izinkan akses), lalu Deploy > New version.
+ * Jika token kosong / gagal kirim, order TETAP tersimpan; hasilnya tercatat di sheet LOG_WA.
+ */
+const FONNTE_TOKEN = 'REvq1pL9JYDyJzyZhU2P';                       // <-- tempel token Fonnte di sini
+const WA_STORE_NAME = 'Coffemur';
+const WA_SITE_URL = 'https://cofemurdigital-jpg.github.io/Coffemur/';                        // opsional, cth. https://namamu.github.io/toko (untuk link lacak pesanan)
+
+function rp_(n){ return 'Rp '+String(Math.round(Number(n)||0)).replace(/\B(?=(\d{3})+(?!\d))/g,'.'); }
+function esc_(v){ return String(v==null?'':v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function waNumber_(raw){
+  let n=String(raw||'').replace(/[^0-9]/g,'');
+  if(n.startsWith('0')) n='62'+n.slice(1);
+  else if(n.startsWith('8')) n='62'+n;
+  return n;
+}
+function invoiceBlob_(no,d){
+  const t=d.totals||{}, c=d.customer||{};
+  const tgl=Utilities.formatDate(new Date(),'Asia/Jakarta','dd MMM yyyy, HH:mm')+' WIB';
+  const rows=(d.items||[]).map(it=>'<tr><td style="border-bottom:1px solid #E5E7EB">'+esc_(it.name)+'</td><td align="center" style="border-bottom:1px solid #E5E7EB">'+Number(it.qty)+'</td><td align="right" style="border-bottom:1px solid #E5E7EB">'+rp_(it.price)+'</td><td align="right" style="border-bottom:1px solid #E5E7EB">'+rp_(it.qty*it.price)+'</td></tr>').join('');
+  const line=(a,b,bold)=>'<tr><td style="padding:3px 0;'+(bold?'font-weight:bold;font-size:14px':'color:#6F7278')+'">'+a+'</td><td align="right" style="padding:3px 0;'+(bold?'font-weight:bold;font-size:14px;color:#03AC0E':'')+'">'+b+'</td></tr>';
+  const html='<html><body style="font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#1B2229;padding:28px">'
+   +'<table width="100%"><tr><td><div style="font-size:24px;font-weight:bold;color:#03AC0E">'+esc_(WA_STORE_NAME).toUpperCase()+'</div><div style="color:#6F7278">Indonesia</div></td>'
+   +'<td align="right"><div style="font-size:20px;font-weight:bold">INVOICE</div><div style="font-weight:bold">'+esc_(no)+'</div><div style="color:#6F7278">'+tgl+'</div></td></tr></table>'
+   +'<hr style="border:0;border-top:1px solid #E5E7EB;margin:14px 0">'
+   +'<div style="color:#6F7278;font-size:10px">DITAGIHKAN KEPADA</div>'
+   +'<div style="font-weight:bold;font-size:14px">'+esc_(c.name)+'</div>'
+   +'<div>'+esc_(c.wa)+'</div><div>'+esc_(c.addr)+', '+esc_(c.city)+'</div><br>'
+   +'<table width="100%" cellspacing="0" cellpadding="7" style="border-collapse:collapse"><thead><tr style="background:#E8F8EB">'
+   +'<th align="left">Produk</th><th align="center">Qty</th><th align="right">Harga</th><th align="right">Subtotal</th></tr></thead><tbody>'+rows+'</tbody></table><br>'
+   +'<table width="55%" align="right" cellspacing="0">'
+   +line('Subtotal',rp_(t.sub))+line('Ongkir ('+esc_(d.shipping&&d.shipping.label)+')',t.ship?rp_(t.ship):'Gratis')
+   +(t.dp?line('DP 30% (dibayar saat pesan)',rp_(t.dp)):'')
+   +line('Total',rp_(t.total),true)
+   +(t.dp?line('Sisa'+(d.tenor?' (cicil '+d.tenor+'x)':''),rp_(t.sisa)):'')
+   +'</table><div style="clear:both"></div><br><br>'
+   +'<div style="color:#6F7278">Metode pembayaran: <b style="color:#1B2229">'+esc_(d.payment&&d.payment.label)+'</b><br>Pengiriman: <b style="color:#1B2229">'+esc_(d.shipping&&d.shipping.label)+(d.shipping&&d.shipping.eta?' · '+esc_(d.shipping.eta):'')+'</b></div>'
+   +'<p style="margin-top:28px;color:#6F7278;font-size:10px">Terima kasih telah berbelanja di '+esc_(WA_STORE_NAME)+'. Dokumen ini dibuat otomatis.</p>'
+   +'</body></html>';
+  return Utilities.newBlob(html,'text/html',no+'.html').getAs('application/pdf').setName('Invoice-'+no+'.pdf');
+}
+function waLog_(no,target,ok,info){
+  try{ sheet_('LOG_WA',['waktu','orderNo','tujuan','status','keterangan']).appendRow([new Date(),no,target,ok?'TERKIRIM':'GAGAL',String(info||'').slice(0,300)]); }catch(_){}
+}
+function sendOrderWa_(no,d){
+  const target=waNumber_(d.customer&&d.customer.wa);
+  try{
+    if(!FONNTE_TOKEN) throw new Error('FONNTE_TOKEN belum diisi');
+    if(target.length<10) throw new Error('Nomor WA tidak valid');
+    const t=d.totals||{};
+    const msg='Halo *'+(d.customer&&d.customer.name||'')+'*, terima kasih sudah order di *'+WA_STORE_NAME+'* 🙏\n\n'
+      +'Pesanan Agen kamu sudah kami terima.\n'
+      +'No. Order: *'+no+'*\n'
+      +'Total: *'+rp_(t.total)+'*'+(t.dp?'\nDP 30% sekarang: '+rp_(t.dp):'')+'\n'
+      +'Pengiriman: '+(d.shipping&&d.shipping.label||'-')+'\n\n'
+      +'Invoice PDF terlampir. Instruksi pembayaran akan dikirim tim kami di chat ini maksimal 1×24 jam.'
+      +(WA_SITE_URL?'\n\nLacak pesanan: '+WA_SITE_URL.replace(/\/$/,'')+'/tracking.html':'');
+    const pdf=invoiceBlob_(no,d);
+    const res=UrlFetchApp.fetch('https://api.fonnte.com/send',{
+      method:'post',
+      headers:{Authorization:FONNTE_TOKEN},
+      payload:{target:target,message:msg,file:pdf,filename:'Invoice-'+no+'.pdf',countryCode:'62'},
+      muteHttpExceptions:true
+    });
+    const body=res.getContentText(); let j={}; try{j=JSON.parse(body)}catch(_){}
+    if(res.getResponseCode()!==200 || j.status===false) throw new Error(j.reason||body||('HTTP '+res.getResponseCode()));
+    waLog_(no,target,true,body);
+    return {sent:true};
+  }catch(err){
+    waLog_(no,target,false,err&&err.message||err);
+    return {sent:false,reason:String(err&&err.message||err)};
+  }
+}
+// Jalankan sekali dari editor: mengizinkan akses & mengirim invoice contoh ke WA toko.
+function testKirimWa(){
+  const wa=(typeof STORE_WA_TEST!=='undefined'?STORE_WA_TEST:'628980222087');
+  const r=sendOrderWa_('COFFEMUR-AG-TEST',{customer:{name:'Tes Coffemur',wa:wa,city:'Makassar',addr:'Jl. Contoh No. 1'},shipping:{label:'Via Darat',eta:'2–5 hari kerja'},payment:{label:'Transfer'},tenor:'',
+    totals:{sub:100000,ship:15000,dp:0,sisa:115000,total:115000},items:[{name:'Produk Contoh',qty:2,price:50000}]});
+  Logger.log(JSON.stringify(r)); return r;
+}
 function doGet(e){
   setup();
   const action=(e && e.parameter && e.parameter.action)||'health';
@@ -73,7 +157,7 @@ function getProducts_(all){
     o.price=Number(o.price)||0; o.old=Number(o.old)||0; o.rating=String(o.rating||''); o.hot=String(o.hot).toLowerCase()==='true'; o.specs=String(o.specs||'').split('||').filter(Boolean); o.stok=o.stok===''?null:Number(o.stok); return o;
   });
 }
-function saveOrder_(d){
+function saveOrderRows_(d){
   const lock=LockService.getScriptLock(); lock.waitLock(10000);
   try{
     const no=d.orderNo||('COFFEMUR-AG-'+Utilities.getUuid().slice(0,8).toUpperCase());
@@ -87,8 +171,13 @@ function saveOrder_(d){
       const rowById={}; for(let i=1;i<vals.length;i++) rowById[String(vals[i][idc])]=i+1;
       (d.items||[]).forEach(it=>{ const row=rowById[String(it.id)]; if(row){ const cell=ps.getRange(row,stc+1); const cur=cell.getValue(); if(cur!=='' && !isNaN(cur)) cell.setValue(Math.max(0,Number(cur)-Number(it.qty||0))); }});
     }
-    return json_({ok:true,orderNo:no});
+    return no;
   } finally { lock.releaseLock(); }
+}
+function saveOrder_(d){
+  const no=saveOrderRows_(d);
+  const wa=sendOrderWa_(no,d); // di luar lock; gagal kirim WA tidak membatalkan order
+  return json_({ok:true,orderNo:no,wa:{sent:!!wa.sent}});
 }
 
 
