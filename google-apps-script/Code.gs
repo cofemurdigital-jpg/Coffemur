@@ -76,7 +76,7 @@ function getProducts_(all){
 function saveOrder_(d){
   const lock=LockService.getScriptLock(); lock.waitLock(10000);
   try{
-    const no=d.orderNo||('UNIT-AG-'+Utilities.getUuid().slice(0,8).toUpperCase());
+    const no=d.orderNo||('COFFEMUR-AG-'+Utilities.getUuid().slice(0,8).toUpperCase());
     const sh=ss_().getSheetByName('PESANAN');
     sh.appendRow([no,new Date(),d.customer?.name||'',d.customer?.wa||'',d.customer?.city||'',d.customer?.addr||'',d.shipping?.label||'',d.payment?.label||'',d.tenor||'',d.totals?.sub||0,d.totals?.ship||0,d.totals?.dp||0,d.totals?.sisa||0,d.totals?.total||0,'BARU']);
     const ds=ss_().getSheetByName('DETAIL_PESANAN');

@@ -17,8 +17,8 @@ function toast(msg,ok=true){
 }
 
 /* ================= KERANJANG ================= */
-let cart=new Map(JSON.parse(localStorage.getItem('unit_cart')||'[]'));
-const save=()=>localStorage.setItem('unit_cart',JSON.stringify([...cart]));
+let cart=new Map(JSON.parse(localStorage.getItem('coffemur_cart')||'[]'));
+const save=()=>localStorage.setItem('coffemur_cart',JSON.stringify([...cart]));
 const cartQty=()=>{let n=0;cart.forEach(q=>n+=q);return n};
 
 function updateBadge(bump){
@@ -57,12 +57,12 @@ function renderCart(){
   }
   let sub=0; cart.forEach((q,id)=>sub+=byId(id).price*q);
   $('#sumSub').textContent=idr(sub);
-  $('#sumShip').textContent='Laut / Udara';
+  $('#sumShip').textContent='Darat / Laut / Udara';
   $('#sumTotal').textContent=idr(sub);
-  $('#shipFill').style.width=Math.min(sub/300000*100,100)+'%';
-  $('#shipLabel').innerHTML= sub>=300000 ? '<b>Gratis ongkir LAUT aktif</b> — pilih saat checkout'
-    : sub===0 ? 'Subtotal ≥ <b>Rp 300.000</b> → gratis ongkir via laut'
-    : `Kurang <b>${idr(300000-sub)}</b> lagi → gratis ongkir via laut`;
+  $('#shipFill').style.width=Math.min(sub/FREE_MIN*100,100)+'%';
+  $('#shipLabel').innerHTML= sub>=FREE_MIN ? '<b>Gratis ongkir DARAT aktif</b> — pilih saat checkout'
+    : sub===0 ? 'Subtotal ≥ <b>Rp 300.000</b> → gratis ongkir via darat'
+    : `Kurang <b>${idr(FREE_MIN-sub)}</b> lagi → gratis ongkir via darat`;
   icons();
 }
  $('#cartItems').addEventListener('click',e=>{
@@ -90,8 +90,10 @@ function showView(v){
 }
 
 /* ================= KONFIG ORDER AGEN ================= */
+const FREE_MIN=(typeof STORE_CONFIG!=='undefined'&&STORE_CONFIG.freeShippingMinimum)||300000;
 const SHIP={
-  laut :{label:'Via Laut', cost:15000, eta:'7–14 hari kerja'},
+  darat:{label:'Via Darat',cost:15000, eta:'2–5 hari kerja'},
+  laut :{label:'Via Laut / Cargo',cost:25000, eta:'7–14 hari kerja'},
   udara:{label:'Via Udara',cost:40000, eta:'1–3 hari kerja'},
 };
 const PAY={
@@ -99,11 +101,11 @@ const PAY={
   cod     :{label:'COD — Bayar di Tempat', flow:'Pesan → Kirim → Bayar', limit:1000000, limitTxt:'LIMIT 1 JT', icon:'banknote'},
   dp      :{label:'DP + Cicilan', flow:'Pesan → DP → Kirim → Cicil', limit:2000000, limitTxt:'LIMIT 2 JT', icon:'hand-coins'},
 };
-let co={ship:'laut',pay:'transfer',tenor:3};
+let co={ship:'darat',pay:'transfer',tenor:3};
 
 function totals(){
   let sub=0; cart.forEach((q,id)=>sub+=byId(id).price*q);
-  const ship= sub===0 ? 0 : (co.ship==='laut' ? (sub>=300000?0:SHIP.laut.cost) : SHIP.udara.cost);
+  const ship= sub===0 ? 0 : (co.ship==='darat' ? (sub>=FREE_MIN?0:SHIP.darat.cost) : SHIP[co.ship].cost);
   const total=sub+ship;
   const dp  = co.pay==='dp' ? Math.round(total*0.3) : 0;
   const sisa= total-dp;
@@ -115,6 +117,7 @@ function renderCheckout(){
   const t=totals();
   if(t.total>PAY[co.pay].limit) co.pay='transfer';
   $$('.shipcard').forEach(c=>c.classList.toggle('on',c.dataset.ship===co.ship));
+  const cd=$('#costDarat'); if(cd) cd.textContent = t.sub>=FREE_MIN ? 'GRATIS' : idr(SHIP.darat.cost);
   $('#payCards').innerHTML=Object.entries(PAY).map(([k,m])=>{
     const over=t.total>m.limit;
     return `<button type="button" class="paycard${co.pay===k?' on':''}${over?' off':''}" data-pay="${k}" ${over?'disabled':''}>
@@ -159,15 +162,15 @@ function renderCheckout(){
   });
   if(!ok){toast('Periksa kembali data agen',false);return}
   const t=totals(), M=PAY[co.pay], S=SHIP[co.ship];
-  const orderNo='UNIT-AG-'+new Date().getTime().toString().slice(-8);
+  const orderNo='COFFEMUR-AG-'+new Date().getTime().toString().slice(-8);
   const items=[...cart].map(([id,qty])=>{const p=byId(id);return {id:p.id,name:p.name,qty,price:p.price}});
   const payload={action:'order',orderNo,customer:{name:$('#agName').value.trim(),wa:$('#agWa').value.trim(),city:$('#agCity').value.trim(),addr:$('#agAddr').value.trim()},shipping:{key:co.ship,label:S.label,eta:S.eta},payment:{key:co.pay,label:M.label,flow:M.flow},tenor:co.tenor,totals:t,items};
   const btn=e.submitter||$('#coForm button[type="submit"]'); if(btn){btn.disabled=true;btn.dataset.oldText=btn.textContent;btn.textContent='Menyimpan...'}
   try{
     const res=await fetch(STORE_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
     const data=await res.json(); if(!data.ok) throw new Error(data.error||'Gagal menyimpan order');
-    const finalOrder=data.orderNo||orderNo; $('#orderNo').textContent=finalOrder; $('#doneActions').innerHTML=`<a class="btn" target="_blank" href="invoice.html?orderNo=${encodeURIComponent(finalOrder)}&wa=${encodeURIComponent($('#agWa').value.trim())}">Invoice PDF</a><a class="btn" target="_blank" href="https://wa.me/${$('#agWa').value.trim().replace(/[^0-9]/g,'')}">WhatsApp</a>`;
-    localStorage.setItem('unit_agent',JSON.stringify(payload.customer));
+    const finalOrder=data.orderNo||orderNo; $('#orderNo').textContent=finalOrder; $('#doneActions').innerHTML=`<a class="btn" target="_blank" href="invoice.html?orderNo=${encodeURIComponent(finalOrder)}&wa=${encodeURIComponent($('#agWa').value.trim())}">Invoice PDF</a><a class="btn" target="_blank" href="https://wa.me/${STORE_CONFIG.whatsapp}?text=${encodeURIComponent('Halo Coffemur, saya sudah order '+finalOrder)}">Chat Admin</a>`;
+    localStorage.setItem('coffemur_agent',JSON.stringify(payload.customer));
     $('#orderRecap').innerHTML=`<div class="srow"><span>Metode</span><span>${M.label}</span></div><div class="srow"><span>Alur</span><span>${M.flow}</span></div><div class="srow"><span>Pengiriman</span><span>${S.label} · ${S.eta}</span></div>${co.pay==='dp'?`<div class="srow"><span>DP 30% — sekarang</span><span>${idr(t.dp)}</span></div><div class="srow"><span>Cicilan ${co.tenor}×</span><span>${idr(t.per)} / bulan</span></div>`:''}<div class="srow total"><span>Total</span><span>${idr(t.total)}</span></div><div class="srow"><span>Tujuan</span><span>${$('#agCity').value}</span></div>`;
     cart.clear(); save(); renderCart(); updateBadge(); showView('done'); toast('Pesanan tersimpan di Google Sheets');
   }catch(err){ console.error(err); toast('Order belum tersimpan. Cek URL Apps Script dan koneksi.',false); }
@@ -182,7 +185,8 @@ async function loadProductsFromSheet(){
     if(!d.ok || !Array.isArray(d.products) || !d.products.length) return;
     d.products.forEach(x=>{ if(x.specs && !Array.isArray(x.specs)) x.specs=String(x.specs).split('||').filter(Boolean); });
     PRODUCTS.splice(0,PRODUCTS.length,...d.products);
-    renderCats(); renderProducts();
+    [...cart.keys()].forEach(id=>{ if(!byId(id)) cart.delete(id); }); save(); renderCart(); updateBadge();
+    renderCats(); renderGrid();
     toast('Produk tersinkron dari Google Sheets');
   }catch(err){ console.warn('Produk Google Sheets belum tersedia; memakai data lokal.',err); }
 }
@@ -198,7 +202,7 @@ function closeCart(){
  $('#closeCart').onclick=closeCart;
  $('#checkoutBtn').onclick=()=>{
   if(!cart.size){toast('Keranjang masih kosong',false);return}
-  try{const a=JSON.parse(localStorage.getItem('unit_agent')||'null');
+  try{const a=JSON.parse(localStorage.getItem('coffemur_agent')||'null');
     if(a){$('#agName').value=a.name||'';$('#agWa').value=a.wa||'';$('#agCity').value=a.city||'';$('#agAddr').value=a.addr||''}
   }catch(_){}
   renderCheckout(); showView('checkout');
@@ -327,7 +331,7 @@ const closeMenu=()=>{$('#mnav').classList.remove('open');document.documentElemen
 
 /* ================= MARQUEE ================= */
 (function(){
-  const items=['GRATIS ONGKIR VIA LAUT MIN. RP 300.000','GARANSI RESMI 12 BULAN','ORDER AGEN: COD & CICILAN SD 3×','KIRIM VIA LAUT / UDARA','PESAN SEBELUM 15.00 — DIKIRIM HARI INI'];
+  const items=['GRATIS ONGKIR VIA DARAT MIN. RP 300.000','GARANSI RESMI 12 BULAN','ORDER AGEN: COD & CICILAN SD 3×','KIRIM VIA DARAT / LAUT / UDARA','PESAN SEBELUM 15.00 — DIKIRIM HARI INI'];
   const unit=items.map(t=>`<span>${t}</span><span class="mdot"></span>`).join('');
   $('#marqTrack').innerHTML=unit.repeat(6);
 })();
